@@ -7,6 +7,7 @@ async fn main() -> std::io::Result<()> {
     HttpServer::new(|| {
         App::new()
             .service(hello)
+            .service(health_check)
     })
     .bind(("0.0.0.0", 8080))?
     .run()
@@ -17,6 +18,11 @@ async fn main() -> std::io::Result<()> {
 async fn hello(query: web::Query<HelloQuery>) -> String {
     let name = query.name.clone();
     format!("Hello {}", name)
+}
+
+#[get("/health")]
+async fn health_check() -> String {
+    "\"state\": \"healthy\"".to_string()
 }
 
 #[derive(Deserialize, Default)]

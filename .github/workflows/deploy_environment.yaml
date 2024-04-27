@@ -1,0 +1,56 @@
+name: Deploy app
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  tofu:
+    runs-on: ubuntu-latest
+    inputs:
+      environment_type:
+        description: 'Type of environment for deploy'
+        required: true'
+        default: dev
+      environment_name: 
+        description: 'Name of the environment for the deploy'
+        required: true
+      region: 
+        description: 'AWS region for the deployment'
+        required: true
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: setup tofu
+        uses: opentofu/setup-opentofu@v1
+        with:
+          tofu_version: 1.6.1
+          cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ inputs.region }}
+
+      - name: Initialize tofu
+        working-directory: infrastructure/
+        run: |
+          tofu init -backend-config="backends/{{ inputs.environment_type }}-config.s3.tfbackend. \
+            -var-file="default.tfvars" \
+            -var-file="${{ inputs.environment_type }}-variables.tfvars"
+
+      - name: Plan changes
+        working-directory: infrastructure/
+        run: |
+          tofu plan -backend-config="backends/{{ inputs.environment_type }}-config.s3.tfbackend. \
+            -var-file="default.tfvars" \
+            -var-file="${{ inputs.environment_type }}-variables.tfvars"
+
+
+          
