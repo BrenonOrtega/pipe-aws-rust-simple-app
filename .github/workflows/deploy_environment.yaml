@@ -41,9 +41,9 @@ jobs:
       - name: Initialize tofu
         working-directory: infrastructure/
         run: |
-          tofu init -backend-config="bucket=${{inputs.environment_type }}-tf-state" \
-            -backend-config="region=${{inputs.region }}"
-            -backend-config="key=/tf-state/${{ inputs.environment_name }}"
+          tofu init -backend-config="BUCKET=${{inputs.environment_type }}-tf-state" \
+            -backend-config="REGION=${{ inputs.region }}"
+            -backend-config="KEY='/tf-state/${{ inputs.environment_name }}'"
             -var-file="default.tfvars" \
             -var-file="${{ inputs.environment_type }}-variables.tfvars"
 
