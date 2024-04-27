@@ -1,0 +1,3 @@
+bucket               = "dev-infrastructure-state"
+region               = "eu-south-2"
+key                  = "state"
