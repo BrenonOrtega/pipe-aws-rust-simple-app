@@ -43,7 +43,7 @@ jobs:
         run: |
           tofu init \
             -backend-config="bucket=${{ inputs.environment_type }}-tf-state" \
-            -backend-config="key=${{ inputs.environment_type }}-{{ inputs.environment_name }}-terraform.tfstate" \
+            -backend-config="key=${{ inputs.environment_type }}-${{ inputs.environment_name }}-terraform.tfstate" \
             -backend-config="region=${{ inputs.region }}" \
             -backend=true \
             -var-file="default.tfvars" \
