@@ -41,14 +41,14 @@ jobs:
       - name: Initialize tofu
         working-directory: infrastructure/
         run: |
-          tofu init -backend-config="backends/${{ inputs.environment_type }}-config.s3.tfbackend \
+          tofu init -backend-config="backends/${{ inputs.environment_type }}-config.s3.tfbackend" \
             -var-file="default.tfvars" \
             -var-file="${{ inputs.environment_type }}-variables.tfvars"
 
       - name: Plan changes
         working-directory: infrastructure/
         run: |
-          tofu plan -backend-config="backends/${{ inputs.environment_type }}-config.s3.tfbackend \
+          tofu plan -backend-config="backends/${{ inputs.environment_type }}-config.s3.tfbackend" \
             -var-file="default.tfvars" \
             -var-file="${{ inputs.environment_type }}-variables.tfvars"
 
