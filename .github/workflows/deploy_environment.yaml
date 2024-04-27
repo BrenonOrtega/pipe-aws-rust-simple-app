@@ -2,13 +2,6 @@ name: Deploy app
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - main
-
-jobs:
-  tofu:
-    runs-on: ubuntu-latest
     inputs:
       environment_type:
         description: 'Type of environment for deploy'
@@ -20,6 +13,10 @@ jobs:
       region: 
         description: 'AWS region for the deployment'
         required: true
+
+jobs:
+  tofu:
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
