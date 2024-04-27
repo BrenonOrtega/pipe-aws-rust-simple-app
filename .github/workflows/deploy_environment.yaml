@@ -5,7 +5,7 @@ on:
     inputs:
       environment_type:
         description: 'Type of environment for deploy'
-        required: true'
+        required: true
         default: dev
       environment_name: 
         description: 'Name of the environment for the deploy'
