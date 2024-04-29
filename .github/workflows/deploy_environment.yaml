@@ -22,7 +22,7 @@ env:
 jobs:
   tofu:
     runs-on: ubuntu-latest
-
+    environment: ${{ inputs.environment_type }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -31,7 +31,6 @@ jobs:
         uses: opentofu/setup-opentofu@v1
         with:
           tofu_version: 1.6.1
-          cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
