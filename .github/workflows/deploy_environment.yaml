@@ -40,14 +40,14 @@ jobs:
           aws-region: ${{ inputs.region }}
       
       - name: Ensure Bucket is created
-        run: aws s3api aws s3api create-bucket --bucket $tf_state_bucket
+        run: aws s3api aws s3api create-bucket --bucket ${{ env.tf_state_bucket }}
         continue-on-error: true
         
       - name: Initialize tofu
         working-directory: infrastructure/
         run: |
           tofu init \
-            -backend-config="bucket=$tf_state_bucket" \
+            -backend-config="bucket=${{ env.tf_state_bucket }}" \
             -backend-config="key=${{ inputs.environment_type }}-${{ inputs.environment_name }}-terraform.tfstate" \
             -backend-config="region=${{ inputs.region }}" \
             -backend=true \
