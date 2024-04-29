@@ -42,7 +42,7 @@ jobs:
       - name: Ensure Bucket is created
         continue-on-error: true
         run: aws s3api aws s3api create-bucket --bucket ${{ env.tf_state_bucket }} \
-          --region ${{ inputs.region }} --create-bucket-configuration LocationConstraint=${{inputs.region}} |
+          --region ${{ inputs.region }} --create-bucket-configuration LocationConstraint=${{inputs.region}}
         
       - name: Enable bucket versioning
         continue-on-error: true
@@ -50,9 +50,7 @@ jobs:
         
       - name: Initialize tofu
         working-directory: infrastructure/
-        run: |
-          tofu init \ 
-            -backend-config="bucket=${{ env.tf_state_bucket }}" \
+        run: tofu init -backend-config="bucket=${{ env.tf_state_bucket }}" \
             -backend-config="key=${{ inputs.environment_type }}-${{ inputs.environment_name }}-terraform.tfstate" \
             -backend-config="region=${{ inputs.region }}" \
             -backend=true \
@@ -61,12 +59,9 @@ jobs:
 
       - name: Plan changes
         working-directory: infrastructure/
-        run: |
-          tofu init \ 
-            -backend-config="bucket=${{ env.tf_state_bucket }}" \
-            -backend-config="key=${{ inputs.environment_type }}-${{ inputs.environment_name }}-terraform.tfstate" \
+        run: tofu init -backend-config="bucket=${{ env.tf_state_bucket }}" \
+            -backend-config="key=${{ env.full_name }}-terraform.tfstate" \
             -backend-config="region=${{ inputs.region }}" \
-            -backend=true \
             -var-file="default.tfvars" \
             -var-file="${{ inputs.environment_type }}-variables.tfvars"
 
