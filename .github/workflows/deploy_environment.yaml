@@ -19,7 +19,7 @@ jobs:
   tofu:
     runs-on: ubuntu-latest
     environment:
-      name: ${{ inputs.environment_type }}
+      full_name: ${{ inputs.environment_type }}-${{ inputs.environment_name }}
       tf_state_bucket: ${{ inputs.environment_type }}-awarean-tf-state
 
     steps:
