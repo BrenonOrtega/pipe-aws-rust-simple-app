@@ -53,16 +53,16 @@ jobs:
         run: tofu init -backend-config="bucket=${{ env.tf_state_bucket }}" \
             -backend-config="key=${{ inputs.environment_type }}-${{ inputs.environment_name }}-terraform.tfstate" \
             -backend-config="region=${{ inputs.region }}" \
-            -var-file="default.tfvars" \
-            -var-file="${{ inputs.environment_type }}-variables.tfvars"
+            -var-file="./variables/default.tfvars" \
+            -var-file="./variables/${{ inputs.environment_type }}-variables.tfvars"
 
       - name: Plan changes
         working-directory: infrastructure/
         run: tofu init -backend-config="bucket=${{ env.tf_state_bucket }}" \
             -backend-config="key=${{ env.full_name }}-terraform.tfstate" \
             -backend-config="region=${{ inputs.region }}" \
-            -var-file="default.tfvars" \
-            -var-file="${{ inputs.environment_type }}-variables.tfvars"
+            -var-file="./variables/default.tfvars" \
+            -var-file="./variables/${{ inputs.environment_type }}-variables.tfvars"
 
 
           
