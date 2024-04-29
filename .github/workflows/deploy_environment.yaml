@@ -40,8 +40,9 @@ jobs:
           aws-region: ${{ inputs.region }}
       
       - name: Ensure Bucket is created
-        run: aws s3api aws s3api create-bucket --bucket ${{ env.tf_state_bucket }}
         continue-on-error: true
+        run: aws s3api aws s3api create-bucket --bucket ${{ env.tf_state_bucket }} \
+          --region ${{ inputs.region }} --create-bucket-configuration LocationConstraint=${{inputs.region}}
         
       - name: Initialize tofu
         working-directory: infrastructure/
