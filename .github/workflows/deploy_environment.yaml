@@ -50,16 +50,16 @@ jobs:
         
       - name: Initialize tofu
         working-directory: infrastructure/
-        run: tofu init -backend-config="bucket=${{ env.tf_state_bucket }}" \
-            -backend-config="key=${{ inputs.environment_type }}-${{ inputs.environment_name }}-terraform.tfstate" \
+        run: tofu init -backend-config="bucket=${{ env.tf_state_bucket }}" `
+            -backend-config="key=${{ inputs.environment_type }}-${{ inputs.environment_name }}-terraform.tfstate" `
             -backend-config="region=${{ inputs.region }}" 
-            
+
       - name: Plan changes
         working-directory: infrastructure/
-        run: tofu plan -backend-config="bucket=${{ env.tf_state_bucket }}" \
-            -backend-config="key=${{ env.full_name }}-terraform.tfstate" \
-            -backend-config="region=${{ inputs.region }}" \
-            -var-file="./variables/default.tfvars" \
+        run: tofu plan -backend-config="bucket=${{ env.tf_state_bucket }}" `
+            -backend-config="key=${{ env.full_name }}-terraform.tfstate" `
+            -backend-config="region=${{ inputs.region }}" `
+            -var-file="./variables/default.tfvars" `
             -var-file="./variables/${{ inputs.environment_type }}-variables.tfvars"
 
 
