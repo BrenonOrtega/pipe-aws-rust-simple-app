@@ -19,5 +19,5 @@ module "vpc" {
 }
 
 module "registry" {
-  source = "./registry"
+  source = "./modules/registry"
 }
