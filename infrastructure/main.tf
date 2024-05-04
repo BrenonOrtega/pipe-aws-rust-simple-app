@@ -13,3 +13,11 @@ provider "aws" {
 module "application" {
     source = "./modules/application"
 }
+
+module "vpc" {
+    source = "./modules/vpc"
+}
+
+module "registry" {
+  source = "./registry"
+}

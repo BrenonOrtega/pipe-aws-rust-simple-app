@@ -1,6 +1,11 @@
-variable "environment_name" {
+variable "environment_type" {
   type = string
   description = "The environment where this terraform file will be applied to."
+}
+
+variable "env_full_name" {
+  type = string
+  description = "The full name of the environment to be applied."
 }
 
 variable "workspace_profiles" {

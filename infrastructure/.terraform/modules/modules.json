@@ -1,1 +1,1 @@
-{"Modules":[{"Key":"","Source":"","Dir":"."},{"Key":"application","Source":"./modules/application","Dir":"modules/application"}]}
+{"Modules":[{"Key":"","Source":"","Dir":"."},{"Key":"application","Source":"./modules/application","Dir":"modules/application"},{"Key":"vpc","Source":"./modules/vpc","Dir":"modules/vpc"}]}
