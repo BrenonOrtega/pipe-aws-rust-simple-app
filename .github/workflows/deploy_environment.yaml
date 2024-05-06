@@ -64,4 +64,5 @@ jobs:
             -var-file="./variables/default.tfvars" \
             -var-file="./variables/${{ inputs.environment_type }}-variables.tfvars" \
             -var='environment_name=${{ env.env_full_name }}' \
-            -var='environment_type=${{ inputs.environment_type }}'
+            -var='environment_type=${{ inputs.environment_type }}' \
+            -var='region=${{ inputs.region }}'
