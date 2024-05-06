@@ -8,7 +8,6 @@ variable "environment_name" {
   description = "The full name of the environment to be applied."
 }
 
-
 variable "region" {
   type = string
   description = "The region of the deployment"
@@ -28,7 +27,7 @@ variable "instance_type" {
   default = "t3.nano"
 }
 
-variable "registry_url" {
-  type = string
-  description = "Url of the registry for pushing container images."
-}
+#variable "registry_url" {
+#  type = string
+#  description = "Url of the registry for pushing container images."
+#}
