@@ -5,7 +5,7 @@ resource "aws_vpc" "main_vpc" {
 resource "aws_subnet" "default_private_subnet" {
   vpc_id            = aws_vpc.main_vpc.id
   cidr_block        = aws_vpc.main_vpc.cidr_block
-  availability_zone = var.region
+  availability_zone = "${var.region}a"
 }
 
 resource "aws_route_table" "private_route_table" {
