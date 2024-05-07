@@ -1,0 +1,69 @@
+name: Deploy app
+
+on:
+  workflow_dispatch:
+    inputs:
+      region: 
+        description: 'AWS region for the deployment'
+        required: true
+        default: eu-south-2
+      environment_type:
+        description: 'Type of environment for deploy'
+        required: true
+        default: dev
+      environment_name: 
+        description: 'Name of the environment for the deploy'
+        required: true
+
+env:
+  env_full_name: ${{ inputs.environment_type }}-${{ inputs.environment_name }}
+  tf_state_bucket: ${{ inputs.environment_type }}-awarean-tf-state
+     
+jobs:
+  tofu:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment_type }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: setup tofu
+        uses: opentofu/setup-opentofu@v1
+        with:
+          tofu_version: 1.6.1
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ inputs.region }}
+
+      - name: Ensure Bucket is created
+        continue-on-error: true
+        run: |
+          aws s3api create-bucket --bucket ${{ env.tf_state_bucket }} \
+          --region ${{ inputs.region }} --create-bucket-configuration LocationConstraint=${{inputs.region}}
+
+      - name: Enable bucket versioning
+        continue-on-error: true
+        run: |
+          aws s3api put-bucket-versioning --bucket ${{ env.tf_state_bucket }} --versioning-configuration Status=Enabled
+        
+      - name: Initialize tofu
+        working-directory: infrastructure/
+        run: |
+          tofu init -backend-config="bucket=${{ env.tf_state_bucket }}" \
+            -backend-config="key=${{ env.env_full_name }}-terraform.tfstate" \
+            -backend-config="region=${{ inputs.region }}" 
+
+      - name: Destroy Infrastructure
+        working-directory: infrastructure/
+        run: |
+          tofu destroy \
+            -auto-approve \
+            -var-file="./variables/default.tfvars" \
+            -var-file="./variables/${{ inputs.environment_type }}-variables.tfvars" \
+            -var='environment_name=${{ env.env_full_name }}' \
+            -var='environment_type=${{ inputs.environment_type }}' \
+            -var='region=${{ inputs.region }}'
