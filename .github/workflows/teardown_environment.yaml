@@ -1,4 +1,4 @@
-name: Deploy app
+name: Teardown Environment
 
 on:
   workflow_dispatch:
