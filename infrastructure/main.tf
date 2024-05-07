@@ -12,21 +12,21 @@ provider "aws" {
 
 module "application" {
   source = "./modules/application"
-  region = vars.region
-  environment_name = vars.environment_name
-  environment_type = vars.environment_type
+  region = var.region
+  environment_name = var.environment_name
+  environment_type = var.environment_type
 }
 
 module "vpc" {
   source = "./modules/vpc"
-  region = vars.region
-  environment_name = vars.environment_name
-  environment_type = vars.environment_type
+  region = var.region
+  environment_name = var.environment_name
+  environment_type = var.environment_type
 }
 
 module "registry" {
   source = "./modules/registry"
-  region = vars.region
-  environment_name = vars.environment_name
-  environment_type = vars.environment_type
+  region = var.region
+  environment_name = var.environment_name
+  environment_type = var.environment_type
 }
